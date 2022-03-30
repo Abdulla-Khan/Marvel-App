@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:marvel_api/controller/api_service.dart';
+import 'package:http/http.dart' as http;
+import 'package:marvel_api/model/marvel_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,6 +13,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var marvelApiUrl = "https://mcuapi.herokuapp.com/api/v1/movies";
+  List<McuModels> mcuMoviesList = [];
+
   @override
   void initState() {
     super.initState();
@@ -62,5 +68,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               )));
+  }
+
+  void getMarvelMovies() {
+    debugPrint('=========== Function running =============');
+
+    final uri = Uri.parse(marvelApiUrl);
+    http.get(uri).then((response) {
+      if (response.statusCode == 200) {
+        final responseBody = response.body;
+        final decodedData = jsonDecode(responseBody);
+        final List marvelData = decodedData['data'];
+        for (var i = 0; i < marvelData.length; i++) {
+          final mcuMovie =
+              McuModels.fromJson(marvelData[i] as Map<String, dynamic>);
+          mcuMoviesList.add(mcuMovie);
+        }
+        setState(() {});
+      } else {}
+    }).catchError((err) {
+      debugPrint('=========== $err =============');
+    });
   }
 }
