@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:marvel_api/model/marvel_model.dart';
+import 'package:marvel_api/views/detail_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -50,9 +51,27 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: mcuMoviesList[index].coverUrl != null
-                            ? CachedNetworkImage(
-                                imageUrl:
-                                    mcuMoviesList[index].coverUrl.toString(),
+                            ? InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => DetailView(
+                                              desc:
+                                                  mcuMoviesList[index].overview,
+                                              duration: mcuMoviesList[index]
+                                                  .duration
+                                                  .toString(),
+                                              title: mcuMoviesList[index].title,
+                                              date: mcuMoviesList[index]
+                                                  .releaseDate,
+                                              img: mcuMoviesList[index]
+                                                  .coverUrl)));
+                                },
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      mcuMoviesList[index].coverUrl.toString(),
+                                ),
                               )
                             : const Text('')),
                   );
