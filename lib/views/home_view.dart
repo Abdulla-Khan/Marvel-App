@@ -30,6 +30,67 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 36, 36, 36),
+    appBar: AppBar(
+      backgroundColor: Color.fromARGB(255, 36, 36, 36),
+      centerTitle: true,
+      elevation: 0,
+      title: const Text(
+        'MARVEL',
+        style: TextStyle(
+            letterSpacing: 5, fontSize: 28, fontWeight: FontWeight.w900),
+      ),
+    ),
+    body: mcuMoviesList.isNotEmpty
+        ? GridView.builder(
+            itemCount: mcuMoviesList.length,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 2 / 3,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10),
+            itemBuilder: (BuildContext context, int index) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: mcuMoviesList[index].coverUrl != null
+                        ? InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => DetailView(
+                                          desc:
+                                              mcuMoviesList[index].overview,
+                                          duration: mcuMoviesList[index]
+                                              .duration
+                                              .toString(),
+                                          title: mcuMoviesList[index].title,
+                                          date: mcuMoviesList[index]
+                                              .releaseDate,
+                                          img: mcuMoviesList[index]
+                                              .coverUrl)));
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  mcuMoviesList[index].coverUrl.toString(),
+                            ),
+                          )
+                        : const Text('')),
+              );
+            },
+          )
+        : const Center(
+            child: SizedBox(
+            width: 50,
+            height: 50,
+            child: Center(
+              child: CircularProgressIndicator(
+                color: Colors.white70,
+              ),
+            ),
+          )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print('object');
@@ -62,67 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Text('Go to phase view'),
       ),
     );
-    // backgroundColor: Color.fromARGB(255, 36, 36, 36),
-    // appBar: AppBar(
-    //   backgroundColor: Color.fromARGB(255, 36, 36, 36),
-    //   centerTitle: true,
-    //   elevation: 0,
-    //   title: const Text(
-    //     'MARVEL',
-    //     style: TextStyle(
-    //         letterSpacing: 5, fontSize: 28, fontWeight: FontWeight.w900),
-    //   ),
-    // ),
-    // body: mcuMoviesList.isNotEmpty
-    //     ? GridView.builder(
-    //         itemCount: mcuMoviesList.length,
-    //         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-    //             maxCrossAxisExtent: 200,
-    //             childAspectRatio: 2 / 3,
-    //             crossAxisSpacing: 10,
-    //             mainAxisSpacing: 10),
-    //         itemBuilder: (BuildContext context, int index) {
-    //           return Padding(
-    //             padding: const EdgeInsets.only(top: 8),
-    //             child: ClipRRect(
-    //                 borderRadius: BorderRadius.circular(20),
-    //                 child: mcuMoviesList[index].coverUrl != null
-    //                     ? InkWell(
-    //                         onTap: () {
-    //                           Navigator.push(
-    //                               context,
-    //                               MaterialPageRoute(
-    //                                   builder: (_) => DetailView(
-    //                                       desc:
-    //                                           mcuMoviesList[index].overview,
-    //                                       duration: mcuMoviesList[index]
-    //                                           .duration
-    //                                           .toString(),
-    //                                       title: mcuMoviesList[index].title,
-    //                                       date: mcuMoviesList[index]
-    //                                           .releaseDate,
-    //                                       img: mcuMoviesList[index]
-    //                                           .coverUrl)));
-    //                         },
-    //                         child: CachedNetworkImage(
-    //                           imageUrl:
-    //                               mcuMoviesList[index].coverUrl.toString(),
-    //                         ),
-    //                       )
-    //                     : const Text('')),
-    //           );
-    //         },
-    //       )
-    //     : const Center(
-    //         child: SizedBox(
-    //         width: 50,
-    //         height: 50,
-    //         child: Center(
-    //           child: CircularProgressIndicator(
-    //             color: Colors.white70,
-    //           ),
-    //         ),
-    //       )));
+    
   }
 }
 
