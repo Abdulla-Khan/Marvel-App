@@ -9,6 +9,18 @@ class PhaseView extends StatelessWidget {
   }) : super(key: key);
   int phase;
 
+  List phaseList = [];
+
+  void phases() {
+    print(phaseList);
+
+    for (var i in mcuMoviesList) {
+      if (i.phase == phase) {
+        phaseList.add(i.phase);
+      }
+    }
+  }
+
   @override
   void initState() {
     getMarvelMovies();
