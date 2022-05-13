@@ -7,6 +7,8 @@ import 'package:marvel_api/model/marvel_model.dart';
 import 'package:marvel_api/views/detail_view.dart';
 import 'package:marvel_api/views/phase_view.dart';
 
+import 'components/drawer_body.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -24,32 +26,51 @@ class _HomeScreenState extends State<HomeScreen> {
     getMarvelMovies();
   }
 
-  TextEditingController txt = TextEditingController();
-  int? phase;
 
-  int phase1 = 1;
 
-  List phaseList = [];
 
-  void phases() {
-    print(phaseList);
-
-    for (var i in mcuMoviesList) {
-      if (i.phase == phase) {
-        phaseList.add(i.phase);
-      }
-    }
-  }
-
+ 
+List newList=[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 36, 36, 36),
+      drawer: Drawer(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(40),
+                bottomRight: Radius.circular(40))),
+        child: Column(children: [
+          DrawerHeader(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: const [
+                  Spacer(),
+                   Text(
+            'MARVEL PHASES',
+            style: TextStyle(
+                letterSpacing: 5, fontSize: 24, fontWeight: FontWeight.w900),
+          ),
+                  Spacer(),
+                  
+                ],
+              ),
+            ],
+          )),
+          
+             drawerBody('Phase 1',context,1),
+             drawerBody('Phase 2', context,2),
+             drawerBody('Phase 3', context,3),
+             drawerBody('Phase 4', context,4),
+
+  ])),
+    
+
         appBar: AppBar(
-          actions: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.more_vert))
-          ],
-          backgroundColor: Color.fromARGB(255, 36, 36, 36),
+   
           centerTitle: true,
           elevation: 0,
           title: const Text(
@@ -108,36 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               )),
-        floatingActionButton: FloatingActionButton(
-            child: Text(''),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>PhaseView(phase: phase1)));
-            }
-            // showDialog(
-            //   context: context,
-            //   builder: (context) => SimpleDialog(
-            //     title: Text('Enter which phase you wanna explore'),
-            //     children: [
-            //       TextField(
-            //         controller: txt,
-            //         onChanged: (value) {
-            //           txt.text = phase as String;
-            //         },
-            //       ),
-            //       ElevatedButton(
-            //           onPressed: () {
-            //             Navigator.push(
-            //                 context,
-            //                 MaterialPageRoute(
-            //                   builder: (_) => PhaseView(
-            //                     phase: int.parse(txt.text),
-            //                   ),
-            //                 ));
-            //           },
-            //           child: Text('Search'))
-            //     ],
-            //   ),
-            ));
+        );
   }
 }
 

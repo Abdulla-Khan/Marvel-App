@@ -2,13 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:marvel_api/views/home_view.dart';
 
+import 'detail_view.dart';
+
 class PhaseView extends StatelessWidget {
   PhaseView({
     Key? key,
+    required this.newList,
     required this.phase,
   }) : super(key: key);
+  List newList;
   int phase;
-
 
   @override
   void initState() {
@@ -16,18 +19,28 @@ class PhaseView extends StatelessWidget {
     mcuMoviesList;
   }
 
-final _newList = mcuMoviesList.where((item) => item.phase == 1).toList();
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 36, 36, 36),
+          centerTitle: true,
+          elevation: 0,
+          title:  Text(
+            'MARVEL PHASE $phase ',
+            style: const TextStyle(
+                letterSpacing: 4, fontSize: 24, fontWeight: FontWeight.w800),
+          ),
+          
+      ),
       
       
       body: mcuMoviesList.isNotEmpty
           ? GridView.builder(
-            itemCount: _newList.length,
+            itemCount: newList.length,
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   childAspectRatio: 2 / 3,
@@ -38,12 +51,30 @@ final _newList = mcuMoviesList.where((item) => item.phase == 1).toList();
                     padding: const EdgeInsets.only(top: 8),
                     child:ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: _newList[index].coverUrl != null
-                                ? CachedNetworkImage(
-                                    imageUrl: _newList[index]
-                                        .coverUrl
-                                        .toString(),
-                                  )
+                            child: newList[index].coverUrl != null
+                                ? InkWell(
+                                  onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => DetailView(
+                                              desc:
+                                                  newList[index].overview,
+                                              duration: newList[index]
+                                                  .duration
+                                                  .toString(),
+                                              title: newList[index].title,
+                                              date: newList[index]
+                                                  .releaseDate,
+                                              img: newList[index]
+                                                  .coverUrl)));
+                                },
+                                  child: CachedNetworkImage(
+                                      imageUrl: newList[index]
+                                          .coverUrl
+                                          .toString(),
+                                    ),
+                                )
                                 : const Text('NO DATA'))
                       );
               },

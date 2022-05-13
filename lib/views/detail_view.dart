@@ -18,6 +18,7 @@ class DetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
