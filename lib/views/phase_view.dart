@@ -9,17 +9,6 @@ class PhaseView extends StatelessWidget {
   }) : super(key: key);
   int phase;
 
-  List phaseList = [];
-
-  void phases() {
-    print(phaseList);
-
-    for (var i in mcuMoviesList) {
-      if (i.phase == phase) {
-        phaseList.add(i.phase);
-      }
-    }
-  }
 
   @override
   void initState() {
@@ -27,11 +16,18 @@ class PhaseView extends StatelessWidget {
     mcuMoviesList;
   }
 
+final _newList = mcuMoviesList.where((item) => item.phase == 1).toList();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
+      
       body: mcuMoviesList.isNotEmpty
           ? GridView.builder(
+            itemCount: _newList.length,
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   childAspectRatio: 2 / 3,
@@ -40,17 +36,16 @@ class PhaseView extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: mcuMoviesList[index].phase == phase
-                        ? ClipRRect(
+                    child:ClipRRect(
                             borderRadius: BorderRadius.circular(20),
-                            child: mcuMoviesList[index].coverUrl != null
+                            child: _newList[index].coverUrl != null
                                 ? CachedNetworkImage(
-                                    imageUrl: mcuMoviesList[index]
+                                    imageUrl: _newList[index]
                                         .coverUrl
                                         .toString(),
                                   )
                                 : const Text('NO DATA'))
-                        : Container());
+                      );
               },
             )
           : const Center(

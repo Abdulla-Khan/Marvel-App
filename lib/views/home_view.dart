@@ -46,6 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 36, 36, 36),
         appBar: AppBar(
+          actions: [
+            IconButton(onPressed: (){}, icon: Icon(Icons.more_vert))
+          ],
           backgroundColor: Color.fromARGB(255, 36, 36, 36),
           centerTitle: true,
           elevation: 0,
@@ -108,7 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
             child: Text(''),
             onPressed: () {
-              print(phaseList);
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>PhaseView(phase: phase1)));
             }
             // showDialog(
             //   context: context,
