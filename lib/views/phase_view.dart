@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:marvel_api/views/home_view.dart';
+import 'package:marvel_api/views/splash_view.dart';
 
 import 'detail_view.dart';
 
@@ -16,7 +17,6 @@ class PhaseView extends StatelessWidget {
   int phase;
 
   void initState() {
-    getMarvelMovies();
     mcuMoviesList;
   }
 
@@ -53,6 +53,9 @@ class PhaseView extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                           builder: (_) => DetailView(
+                                              db: mcuMoviesList[index]
+                                                  .directedBy,
+                                              url: newList[index].trailerUrl,
                                               desc: newList[index].overview,
                                               duration: newList[index]
                                                   .duration

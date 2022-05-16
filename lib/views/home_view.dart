@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:marvel_api/model/marvel_model.dart';
 import 'package:marvel_api/views/detail_view.dart';
+import 'package:marvel_api/views/splash_view.dart';
 
 import 'components/drawer_body.dart';
 
@@ -15,17 +12,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-var marvelApiUrl = "https://mcuapi.herokuapp.com/api/v1/movies";
-List<McuModels> mcuMoviesList = [];
-
 class _HomeScreenState extends State<HomeScreen> {
-  @override
-  void initState() {
-    getMarvelMovies();
-    super.initState();
-  }
-
-  List newList = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => DetailView(
+                                            db: mcuMoviesList[index].directedBy,
+                                            url:
+                                                mcuMoviesList[index].trailerUrl,
                                             desc: mcuMoviesList[index].overview,
                                             duration: mcuMoviesList[index]
                                                 .duration
@@ -121,24 +111,4 @@ class _HomeScreenState extends State<HomeScreen> {
             )),
     );
   }
-}
-
-void getMarvelMovies() {
-  debugPrint('=========== Function running =============');
-
-  final uri = Uri.parse(marvelApiUrl);
-  http.get(uri).then((response) {
-    if (response.statusCode == 200) {
-      final responseBody = response.body;
-      final decodedData = jsonDecode(responseBody);
-      final List marvelData = decodedData['data'];
-      for (var i = 0; i < marvelData.length; i++) {
-        final mcuMovie =
-            McuModels.fromJson(marvelData[i] as Map<String, dynamic>);
-        mcuMoviesList.add(mcuMovie);
-      }
-    } else {}
-  }).catchError((err) {
-    debugPrint('=========== $err =============');
-  });
 }

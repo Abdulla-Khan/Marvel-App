@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../home_view.dart';
 import '../phase_view.dart';
+import '../splash_view.dart';
 
 List newList = [];
 Widget drawerBody(String title, BuildContext context, int phases) {
