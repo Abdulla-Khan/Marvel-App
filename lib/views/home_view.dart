@@ -77,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (_) => DetailView(
-                                            db: mcuMoviesList[index].directedBy,
                                             url:
                                                 mcuMoviesList[index].trailerUrl,
                                             desc: mcuMoviesList[index].overview,

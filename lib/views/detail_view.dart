@@ -10,7 +10,6 @@ class DetailView extends StatefulWidget {
       required this.title,
       required this.date,
       required this.url,
-      required this.db,
       this.desc,
       this.duration})
       : super(key: key);
@@ -20,8 +19,6 @@ class DetailView extends StatefulWidget {
   String? duration;
   String? desc;
   String? url;
-  String? db;
-
   @override
   State<DetailView> createState() => _DetailViewState();
 }
@@ -62,14 +59,10 @@ class _DetailViewState extends State<DetailView> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Directed By: ${widget.db}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
                     'Description:',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  buildText(widget.desc!),
+                  buildText(widget.desc ?? 'Not Available'),
                   TextButton(
                       onPressed: () {
                         setState(() {
@@ -81,9 +74,10 @@ class _DetailViewState extends State<DetailView> {
                         style: TextStyle(color: Colors.grey),
                       )),
                   ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.grey),
                       onPressed: () {
-                        _launch(widget.url!);
+                        _launch(widget.url ??
+                                "https://github.com/Abdulla-Khan") ??
+                            '';
                       },
                       child: Text('Watch Trailer'))
                 ],
@@ -95,7 +89,7 @@ class _DetailViewState extends State<DetailView> {
     );
   }
 
-  void _launch(String url) async {
+  _launch(String url) async {
     if (await launch(url)) {
       await launch(url);
     } else {
@@ -107,7 +101,7 @@ class _DetailViewState extends State<DetailView> {
     final lines = read ? null : 3;
     return Text(
       text,
-      style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      style: Theme.of(context).textTheme.labelLarge,
       maxLines: lines,
       overflow: read ? TextOverflow.visible : TextOverflow.ellipsis,
     );
