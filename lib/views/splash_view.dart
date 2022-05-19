@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     getMarvelMovies();
     super.initState();
     Timer(const Duration(seconds: 5), () {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => const HomeScreen()));
     });
   }

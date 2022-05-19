@@ -17,7 +17,7 @@ Widget drawerBody(String title, BuildContext context, int phases) {
         trailing: IconButton(
           icon: const Icon(Icons.arrow_forward_ios_rounded),
           onPressed: () {
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (_) => PhaseView(
